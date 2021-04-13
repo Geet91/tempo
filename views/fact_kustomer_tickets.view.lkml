@@ -254,7 +254,7 @@ view: fact_kustomer_tickets {
     }
   }
 
-  dimension: date_diff {
+  dimension: time_from_start_to_finish {
     type: number
     sql: DATEDIFF( day, ${conversation_created_date}, ${conversation_updated_date}) ;;
   }
