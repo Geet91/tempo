@@ -254,6 +254,11 @@ view: fact_kustomer_tickets {
     }
   }
 
+  dimension: date_diff {
+    type: number
+    sql: DATEDIFF( day, ${conversation_created_date}, ${conversation_updated_date}) ;;
+  }
+
   dimension: date {
     sql:
     {% if date_granularity._parameter_value == 'day' %}
