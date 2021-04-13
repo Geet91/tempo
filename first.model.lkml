@@ -26,7 +26,8 @@ explore: fact_kustomer_tickets {
     sql_on: ${fact_kustomer_tickets.customer_id} = ${dim_kustomer_customer.customer_id} ;;
     relationship: many_to_one
   }
+
   # join: dim_kustomer_agent {
-  #   sql_on: ${dim_kustomer_agent.agent_id} = fact_kustomer_tickets. ;;
+  # sql_on: ${dim_kustomer_agent.agent_id} = fact_kustomer_tickets. ;;
   # }
 }

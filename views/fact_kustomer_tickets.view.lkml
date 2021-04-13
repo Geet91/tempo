@@ -78,7 +78,7 @@ view: fact_kustomer_tickets {
 
   dimension: conversation_status {
     type: string
-    sql: ${TABLE}."CONVERSATION_STATUS" ;;
+    sql: CASE WHEN ${TABLE}."CONVERSATION_STATUS" IS NULL THEN 'Unknown' ELSE ${TABLE}."CONVERSATION_STATUS" END;;
   }
 
   dimension_group: conversation_updated {
@@ -236,5 +236,34 @@ view: fact_kustomer_tickets {
   measure: count {
     type: count
     drill_fields: [queue_name, conversation_name, sat_rating, dim_kustomer_customer.name,dim_kustomer_customer.email]
+  }
+
+  parameter: date_granularity {
+    type: unquoted
+    allowed_value: {
+      label: "Break down by Day"
+      value: "day"
+    }
+    allowed_value: {
+      label: "Break down by Week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Break down by Month"
+      value: "month"
+    }
+  }
+
+  dimension: date {
+    sql:
+    {% if date_granularity._parameter_value == 'day' %}
+      ${conversation_created_date}
+    {% elsif date_granularity._parameter_value == 'week' %}
+      ${conversation_created_week}
+    {% elsif date_granularity._parameter_value == 'month' %}
+      ${conversation_created_month}
+    {% else %}
+      ${conversation_created_date}
+    {% endif %};;
   }
 }
